@@ -2,22 +2,20 @@ import { useStore } from "effector-react"
 import Basket from "../components/Basket/Basket"
 import ProductList from "../components/ProductList/ProductList"
 import ProductPage from "../components/ProductPage/ProductPage"
-import SalePointPicker from "../components/SalePointPicker/SalePointPicker"
 import { $pageId, setCurrentPage } from "../store/pages"
 
 
 
 
 const usePage = () => {
-    const pages = [<SalePointPicker key={'SalePointPage'}/>, <ProductList key={'ProductListPage'}/>, <Basket key={'BasketPage'}/>, <ProductPage key={'ProductPagePage'} exit={() => {setCurrentPage(1)}}/>]
+    const pages = [<ProductList key={'ProductListPage'}/>, <Basket key={'BasketPage'}/>, <ProductPage key={'ProductPagePage'} exit={() => {setCurrentPage(1)}}/>]
     const pageId = useStore($pageId)
 
 
     const navigator = {
-        toSalesPoiints: () => setCurrentPage(0),
-        toProductList: () => setCurrentPage(1),
-        toBasket: () => setCurrentPage(2),
-        toProductPage: () => setCurrentPage(3),
+        toProductList: () => setCurrentPage(0),
+        toBasket: () => setCurrentPage(1),
+        toProductPage: () => setCurrentPage(2),
     }
 
     return {currentPage: pages[pageId], ...navigator}

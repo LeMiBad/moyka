@@ -3,7 +3,7 @@ import { useState } from "react"
 import styled from "styled-components"
 import { clearLazyLoad } from "../../store/lazyLoadIndex"
 import { setCategory } from "../../store/pickedCategory"
-import { $pickedSaleDot } from "../../store/pickedSaleDot"
+// import { $pickedSaleDot } from "../../store/pickedSaleDot"
 import { $acces, getProducts } from "../../store/skladData"
 import { $tgInfo } from "../../store/tgData"
 import { CategoryObject } from "../../types/types"
@@ -23,21 +23,21 @@ const StyledCategoryItem = styled.h1<{dark: boolean, padding: number}>`
 const CategoryItem: React.FC<{cat: CategoryObject, switchHandler: () => void}> = ({cat, switchHandler}) => {
     const {dark} = useStore($tgInfo)
     const {access_token} = useStore($acces)
-    const saleDot = useStore($pickedSaleDot)
+    // const saleDot = useStore($pickedSaleDot)
     const [openState, setOpenState] = useState(false)
 
     const pickCategory = (category: CategoryObject) => {
         switchHandler()
         setCategory(category)        
         clearLazyLoad()
-        if(saleDot) getProducts({acces: access_token, category: getChildsFolders(category), saleDot})
+        // if(saleDot) getProducts({acces: access_token, category: getChildsFolders(category), saleDot})
     }
 
 
     return (
         <>
-            <div key={cat.category.folder_id} style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 15}}>
-                <StyledCategoryItem onClick={() => {pickCategory(cat)}} padding={cat.padding} dark={dark}>{cat.category.user_folder_name? cat.category.user_folder_name : categoryNameParser(cat.category.folder_name, cat.padding)}</StyledCategoryItem> 
+            <div key={cat.folder_name} style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 15}}>
+                <StyledCategoryItem onClick={() => {pickCategory(cat)}} padding={cat.padding} dark={dark}>{cat.folder_name? cat.folder_name : categoryNameParser(cat.folder_name, cat.padding)}</StyledCategoryItem> 
                 {cat.child? 
                     <div style={{transform: openState? 'rotate(270deg)' : 'rotate(180deg)', transition: '0.3s'}}><ArrowIcon func={() => {setOpenState(openState? false : true)}}></ArrowIcon></div> 
                 : 
@@ -45,7 +45,7 @@ const CategoryItem: React.FC<{cat: CategoryObject, switchHandler: () => void}> =
                 }
             </div>
             {openState && cat.child? 
-                cat.child.map((categ, index) => <CategoryItem switchHandler={switchHandler} key={cat.category.folder_id + index} cat={categ} />)
+                cat.child.map((categ, index) => <CategoryItem switchHandler={switchHandler} key={cat.folder_name + index} cat={categ} />)
             : 
                 null
             }

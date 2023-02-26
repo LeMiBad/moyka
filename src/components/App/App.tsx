@@ -4,7 +4,7 @@ import { useSearchParams } from 'react-router-dom'
 import { createGlobalStyle } from 'styled-components'
 import useMainButton from '../../hooks/useMainButton'
 import usePage from '../../hooks/usePage'
-import { getShopAcces } from '../../store/skladData'
+import { setShopAcces } from '../../store/skladData'
 import { $tgInfo, darkThemeEnabler, desktopEnabler, setTgNickName, setTgUserName } from '../../store/tgData'
 import './app.css'
 
@@ -25,9 +25,15 @@ const App = () => {
     const [params] = useSearchParams()
     const mainButton = useMainButton()
     const {currentPage} = usePage()
-    const initId = params.get('id') || '3'
-    const initName = params.get('name') || ''
+    const initName = params.get('name') || 'LeMi'
+    const initiDbId = params.get('dbid') || ''
+    const initPhone = params.get('phone') || ''
+    const initAccesToken = params.get('accesToken') || '9e0db243153cc40116571ccd8504d544935de81b'
+    
 
+    useEffect(() => {
+        setShopAcces(initAccesToken)
+    }, [initAccesToken, initName, initPhone, initiDbId])
 
     
     useEffect(() => {
@@ -46,11 +52,6 @@ const App = () => {
             }
         }
     }, [initName])
-    
-    
-    useEffect(() => {
-        getShopAcces(initId)
-    }, [initId])
     
     
     return <>

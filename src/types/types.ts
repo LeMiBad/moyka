@@ -168,8 +168,9 @@ export interface ICategory {
 
 export interface CategoryObject {
     padding: number
-    category: ICategory
-    child: null | CategoryObject[]
+    folder_name: string
+    category: IProduct[]
+    child?: CategoryObject[] | null
 }
 
 export interface IImage {

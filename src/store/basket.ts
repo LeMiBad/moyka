@@ -17,16 +17,16 @@ export const $basket = createStore(initialBasket)
     .on(addBasketItem, (state, newBasketItem) => {
         let isHave = false
         for(let i = 0; i < state.length; i++) {
-            if(`${state[i].data.name}${state[i].data.salePrices[0].value}` === `${newBasketItem.data.name}${newBasketItem.data.salePrices[0].value}`) {
+            if(`${state[i].data.name}${state[i].data.buyPrice.value}` === `${newBasketItem.data.name}${newBasketItem.data.buyPrice.value}`) {
                 isHave = true
             }
         }
-
+        
         let newState = []
-
+        
         if(isHave) {
             newState = state.map(prod => {
-                if(`${prod.data.name}${prod.data.salePrices[0].value}` === `${newBasketItem.data.name}${newBasketItem.data.salePrices[0].value}`) {
+                if(`${prod.data.name}${prod.data.buyPrice.value}` === `${newBasketItem.data.name}${newBasketItem.data.buyPrice.value}`) {
                     if(prod.counter) prod.counter += 1
                     return prod
                 }

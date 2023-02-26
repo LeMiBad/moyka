@@ -8,7 +8,6 @@ import LoadImage from "../Ui/LoadImage/LoadImage"
 import {productUpdate} from './../../store/ProductPage'
 import NotImage from "./NotImage"
 import { addBasketItem } from "../../store/basket"
-import { $pickedSaleDot } from "../../store/pickedSaleDot"
 import Tost from "./Tost"
 import useTost from "../../hooks/useTost"
 import useValute from "../../hooks/useValute"
@@ -86,10 +85,9 @@ const StyledNameWrapper = styled.div`
 const Product: React.FC<ProductItemProps> = ({data, setImgLoading}) => {
     const {images, isLoading} = useProductImages(data)
     const {toProductPage} = usePage() 
-    const saleDot = useStore($pickedSaleDot)
     const {access_token} = useStore($acces)
     const {tost, setTost} = useTost()
-    const valute = useValute(data)
+    // const valute = useValute(data)
 
     useEffect(() => {
         if(isLoading) setImgLoading(true)
@@ -120,13 +118,11 @@ const Product: React.FC<ProductItemProps> = ({data, setImgLoading}) => {
         }
     }
 
-    
     return (
         <>
             {tost.map((tost, i) => tost.length? <Tost key={i}>{tost}</Tost> : null)}
             {
-                saleDot?
-                <StyledProductItem onClick={() => productUpdate({acces: access_token, product: data, saleDot})}>
+                <StyledProductItem onClick={() => productUpdate({acces: access_token, product: data})}>
                     {
                         isLoading? <div onClick={toProductPage} style={{width: '43vw', height: '43vw', display: 'flex', justifyContent: 'center', alignItems: 'center'}}><LoadImage/></div>
                         : 
@@ -139,12 +135,10 @@ const Product: React.FC<ProductItemProps> = ({data, setImgLoading}) => {
                         <button onClick={(e) => plusButtonHandler(e, data)}>+</button>
                         <div style={{display: 'flex', flexDirection: 'column', gap: 10}}>
                             <h3>{data.name}</h3>
-                            {data.variantsCount? null : <h3 style={{fontSize: 16, fontWeight: 500}}>{data.salePrices[0].value} {valute}</h3>}
+                            {data.variantsCount? null : <h3 style={{fontSize: 16, fontWeight: 500}}>{data.buyPrice.value} {'руб'}</h3>}
                         </div>
                     </StyledNameWrapper>
                 </StyledProductItem> 
-                : 
-                null
             }
         </>
     )

@@ -113,7 +113,7 @@ const ProductPage: React.FC<IProps>  = ({exit}) => {
     const {products, curVariant} = useStore($ProductPage)
     const {images, isLoading} = useProductImages(products[curVariant], curVariant? true : false)
     const [{imgIndex}, setCurImg] = useState<{imgIndex: number, slideState: string}>({imgIndex: 0, slideState: 'left'})
-    const valute = useValute(products[curVariant])
+    // const valute = useValute(products[curVariant])
 
     const rightSlide = () => {
         if(imgIndex+1 === images.length) {
@@ -155,7 +155,7 @@ const ProductPage: React.FC<IProps>  = ({exit}) => {
             <InfoWrapper>
                 <NameWrapper dark={dark}>
                     <h1>{products[curVariant].name}</h1>
-                    <h2>{products[curVariant].salePrices[0].value} {valute}</h2>
+                    <h2>{products[curVariant].buyPrice.value} руб</h2>
                 </NameWrapper>
                 {(products.length > 1)? <h1 style={{color: dark? 'white' : 'black', fontSize: 18, margin: '10px 0 10px 0'}}>Выберите тип</h1> : null}
                 <VariantsWrapper>

@@ -4,7 +4,6 @@ import useFindProducts from "./useFindProducts"
 import useOpen from "../../hooks/useOpeningSwitcher"
 import usePage from "../../hooks/usePage"
 import FinderIcon from "../Ui/FinderIcon/FinderIcon"
-import { $pickedSaleDot } from "../../store/pickedSaleDot"
 import { productUpdate } from "../../store/ProductPage"
 import { $acces } from "../../store/skladData"
 import { $tgInfo } from "../../store/tgData"
@@ -73,11 +72,10 @@ const FindPanel = () => {
     const {req, setReq, filted, isLoading} = useFindProducts()
     const {dark} = useStore($tgInfo)
     const {toProductPage} = usePage() 
-    const saleDot = useStore($pickedSaleDot)
     const {access_token} = useStore($acces)
 
     const toProduct = (data: IProduct) => {
-        if(saleDot)productUpdate({acces: access_token, product: data, saleDot})
+        productUpdate({acces: access_token, product: data})
         toProductPage()
     }
 

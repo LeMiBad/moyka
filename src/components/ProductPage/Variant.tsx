@@ -3,7 +3,6 @@ import { useStore } from "effector-react"
 import { useEffect, useState } from "react"
 import styled from "styled-components"
 import useAxiosConfig from "../../hooks/useAxiosConfig"
-import { $pickedSaleDot } from "../../store/pickedSaleDot"
 import { $allow_sync_sklad } from "../../store/skladData"
 import { $tgInfo } from "../../store/tgData"
 import { IProduct } from "../../types/types"
@@ -34,11 +33,10 @@ const Variant: React.FC<IVariant> = ({product, setCurVariant, index}) => {
     const config = useAxiosConfig()
     const [exist, setExist] = useState(true)
     const allow_sync = useStore($allow_sync_sklad)
-    const saleDot = useStore($pickedSaleDot)
     
     useEffect(() => {
         if(allow_sync) {
-            const url = `https://www.mc.optimiser.website/api/remap/1.2/report/stock/bystore/current?filter=assortmentId=${product.id};storeId=${saleDot? saleDot.sklad_id : ''}`
+            const url = `https://www.mc.optimiser.website/api/remap/1.2/report/stock/bystore/current?filter=assortmentId=${product.id};storeId=${''}`
             
             if(cashedVariants[url]) {
                 const data = cashedVariants[url]

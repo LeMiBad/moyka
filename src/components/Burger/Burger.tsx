@@ -2,7 +2,7 @@ import { useStore } from "effector-react"
 import styled from "styled-components"
 import useOpen from "../../hooks/useOpeningSwitcher"
 import { clearLazyLoad } from "../../store/lazyLoadIndex"
-import { getProducts } from "../../store/skladData"
+import { $categories, getProducts } from "../../store/skladData"
 import { $tgInfo } from "../../store/tgData"
 import ArrowIcon from "../Ui/ArrowIcon/ArrowIcon"
 import useBurgerUtils from "./useBurgerUtils"
@@ -56,22 +56,23 @@ const StyledCategoryItem = styled.h1<{dark: boolean}>`
 const Burger = () => {
     const {openState, switchHandler} = useOpen()
     const {dark} = useStore($tgInfo)
-    const {saleDot, categories, access_token} = useBurgerUtils()
+    const categories = useStore($categories)
+    // const {saleDot, categories, access_token} = useBurgerUtils()
     
 
     const pickAllProducts = () => {
-        switchHandler()
-        clearLazyLoad()
-        setCategory(null)
-        if(saleDot) {
-            const final: CategoryObject[] = []
+        // switchHandler()
+        // clearLazyLoad()
+        // setCategory(null)
+        // if(saleDot) {
+        //     const final: CategoryObject[] = []
 
-            categories.forEach(cat => {
-                final.push(...getChildsFolders(cat))
-            })
+        //     categories.forEach(cat => {
+        //         final.push(...getChildsFolders(cat))
+        //     })
 
-            getProducts({acces: access_token, saleDot, category: final})
-        }
+        //     getProducts({acces: access_token, saleDot, category: final})
+        // }
     }
 
 
@@ -89,7 +90,7 @@ const Burger = () => {
                             <StyledCategoryItem dark={dark}>Все товары</StyledCategoryItem> 
                         </div>
                         {categories.map((cat) => {
-                            return <CategoryItem key={cat.category.folder_id} switchHandler={switchHandler} cat={cat}/>
+                            return <CategoryItem key={cat.folder_name} switchHandler={switchHandler} cat={cat}/>
                         })}
                     </CategoryWrapper>
                 </BurgerMenuWrapper>

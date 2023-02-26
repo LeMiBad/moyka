@@ -5,16 +5,15 @@ import styled from "styled-components"
 import useOpen from "../../hooks/useOpeningSwitcher"
 import { $lazyLoad, clearLazyLoad, setLazyLoad } from "../../store/lazyLoadIndex"
 import { setCurVariant } from "../../store/ProductPage"
-import { $acces, $categories, $products, getProducts } from "../../store/skladData"
+import { $acces, $categories, $products, getCategories, getProducts } from "../../store/skladData"
 import { $tgInfo } from "../../store/tgData"
 import { CategoryObject, IProduct } from "../../types/types"
 import Header from "../Header/Header"
 import Loader from "../Ui/Loader/Loader"
 import Product from "../Product/Product"
 import ProductPage from "../ProductPage/ProductPage"
-import { $category, setCategory } from "../../store/pickedCategory"
-import { categoryNameParser, findParentCategory, getChildsFolders } from "../../utils/parsers"
-import { $pickedSaleDot } from "../../store/pickedSaleDot"
+import { $category } from "../../store/pickedCategory"
+import { categoryNameParser, findParentCategory} from "../../utils/parsers"
 import ArrowIcon from "../Ui/ArrowIcon/ArrowIcon"
 import ProductsOut from "../Ui/ProductsOut/ProductsOut"
 
@@ -23,6 +22,7 @@ const sortByGroup = (products: IProduct[] | null, count: number, index: number) 
     if(!products) return []
     if(products.length < 18) return products
     else index += 2
+    if(products.length / 2 === index - 1) return products
 
     for (let s = 0, e = count; s < products.length; s += count, e += count)
         result.push(products.slice(s, e));
@@ -30,8 +30,9 @@ const sortByGroup = (products: IProduct[] | null, count: number, index: number) 
     const final = []
 
     for(let i = 0; i < index; i++)
-        final.push(result[i])
+        if(result[i])final.push(result[i])
 
+    
     return final.flat(1)
 }
 
@@ -82,7 +83,6 @@ const ProductList = () => {
     const currentCategory = useStore($category)
     const categories = useStore($categories)
     const loadIndex = useStore($lazyLoad)
-    const saleDot = useStore($pickedSaleDot)
     const myRef = useRef<HTMLDivElement>(null)
 
 
@@ -106,24 +106,24 @@ const ProductList = () => {
     }, [products])
 
     const pickCategory = (category: CategoryObject | null) => {
-        if(category && saleDot) { 
-            setCategory(category)
-            getProducts({acces: access_token, category: getChildsFolders(category), saleDot})
-        }
-        else {
-            setCategory(null)
-            getProducts({acces: access_token, category: categories, saleDot})
-        }
+        // if(category) { 
+        //     setCategory(category)
+        //     getProducts({acces: access_token, category: getChildsFolders(category), saleDot})
+        // }
+        // else {
+        //     setCategory(null)
+        //     getProducts({acces: access_token, category: categories, saleDot})
+        // }
     }
-
+    
+    useEffect(() => {
+        getProducts({acces: access_token, category: '', saleDot: ''})
+        if(products) getCategories(products.flat(1))
+    }, [access_token, products])
+    
 
     useEffect(() => {
-        console.log(imgLoading)
-    }, [imgLoading])
-
-
-    useEffect(() => {
-        if(products && loadIndex < Math.ceil(products.length/2) && inView) {
+        if(products && loadIndex < products.length/2 && inView) {
             setLazyLoad(loadIndex+1)
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -144,7 +144,7 @@ const ProductList = () => {
                         </div> : <></>}
                         <CategoryWrapper>
                             {currentCategory && currentCategory.child? 
-                            currentCategory.child.map((cat, index) => <CategoryCard onClick={() => pickCategory(cat)} key={index} dark={dark}>{categoryNameParser(cat.category.folder_name, cat.padding)}</CategoryCard>)
+                            currentCategory.child.map((cat, index) => <CategoryCard onClick={() => pickCategory(cat)} key={index} dark={dark}>{categoryNameParser(cat.folder_name, cat.padding)}</CategoryCard>)
                             : null
                         }
                         </CategoryWrapper>

@@ -40,10 +40,9 @@ const Basket = () => {
     const {dark} = useStore($tgInfo)
     const {toProductList} = usePage()
     const [modal, setModal] = useState(false)
-    const valute = useValute(basket.length? basket[0].data : undefined)
-
+    const valute = 'руб'
     const basketSum = basket.reduce((acc, item) => {
-        return acc + +item.data.salePrices[0].value * item.counter
+        return acc + +item.data.buyPrice.value * item.counter
     }, 0)
 
     useEffect(() => {

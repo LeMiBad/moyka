@@ -153,7 +153,7 @@ const initialProduct =  {
 
 
 
-export const productUpdate = createEffect(async ({acces, product, saleDot}: {acces: string, product: IProduct, saleDot: ISalePoint}) => {
+export const productUpdate = createEffect(async ({acces, product, saleDot}: {acces: string, product: IProduct, saleDot?: ISalePoint}) => {
     const config = {
         headers: {
             "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -173,12 +173,12 @@ export const productUpdate = createEffect(async ({acces, product, saleDot}: {acc
         const product: IProduct = data.data.rows[i]
         let currentPrice: any
         product.salePrices.forEach(priceObj => {
-            if(priceObj.priceType.name === saleDot.current_price_type?.price_name) {
+            if(saleDot && priceObj.priceType.name === saleDot.current_price_type?.price_name) {
                 currentPrice = priceObj
             }
         })
 
-        if(saleDot.current_price_type?.price_id  === 'minimal_price') {
+        if(saleDot && saleDot.current_price_type?.price_id  === 'minimal_price') {
             product.salePrices[0].value = product.salePrices[0].value / 100
         }
         else {

@@ -6,7 +6,6 @@ import OrderModal from "../components/OrderModal/OrderModal"
 import Tost from "../components/Product/Tost"
 import { $basket, addBasketItem } from "../store/basket"
 import { $pageId } from "../store/pages"
-import { $pickedSaleDot } from "../store/pickedSaleDot"
 import { $ProductPage } from "../store/ProductPage"
 import { $allow_sync_sklad } from "../store/skladData"
 import { API } from "../utils/api"
@@ -22,7 +21,6 @@ const useMainButton = () => {
     const basket = useStore($basket)
     const [modal, setModal] = useState(false)
     const {products, curVariant} = useStore($ProductPage)
-    const saleDot = useStore($pickedSaleDot)
     const [exist, setExist] = useState(true)
     const {toBasket, toProductList} = usePage()
     const allowSync = useStore($allow_sync_sklad)
@@ -30,7 +28,7 @@ const useMainButton = () => {
     const config = useAxiosConfig()
 
     const basketSum = basket.reduce((acc, item) => {
-        return acc + +item.data.salePrices[0].value * item.counter
+        return acc + +item.data.buyPrice.value * item.counter
     }, 0)
 
     const modalHandler = () => setModal(modal? false : true)
@@ -38,7 +36,7 @@ const useMainButton = () => {
     useEffect(() => {
         if(allowSync) {
             if(products[curVariant].id.length) {
-                const url = `${API.path}remap/1.2/report/stock/bystore/current?filter=assortmentId=${products[curVariant].id};storeId=${saleDot? saleDot.sklad_id : ''}`
+                const url = `${API.path}remap/1.2/report/stock/bystore/current?filter=assortmentId=${products[curVariant].id};storeId=${''}`
                 axios(url, config)
                 .then(data => {
                     if(data.data.length) {

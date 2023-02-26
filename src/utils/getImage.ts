@@ -18,7 +18,6 @@ export const getImage = async (url: string, acces: string, isVariant: boolean) =
         },
     }
 
-    
     const images: Promise<any>[] = []
     const link = `${API.path}remap/1.2/entity/${isVariant? 'variant' : 'product'}/${url.split('/').slice(8).join('/')}`
 

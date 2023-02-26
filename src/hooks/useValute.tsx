@@ -17,7 +17,7 @@ const useValute = (data: IProduct | undefined) => {
     
     useEffect(() => {
         if(data && data.buyPrice.currency.meta.href.split('/')[8]) {
-            const priceLink = `${API.path}remap/1.2/entity/currency/${data.salePrices[0].currency.meta.href.split('/')[8]}`
+            const priceLink = `${API.path}remap/1.2/entity/currency/${data.buyPrice.currency.meta.href.split('/')[8]}`
             if(cashedValute[priceLink]) setValute(cashedValute[priceLink])
             
             else axios(priceLink, config)

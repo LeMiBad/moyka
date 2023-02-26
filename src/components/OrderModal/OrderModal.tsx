@@ -4,7 +4,6 @@ import { useState } from "react"
 import PhoneInput from "react-phone-input-2"
 import styled, { keyframes } from "styled-components"
 import { $basket } from "../../store/basket"
-import { $pickedSaleDot } from "../../store/pickedSaleDot"
 import { $acces } from "../../store/skladData"
 import { $tgInfo } from "../../store/tgData"
 import 'react-phone-input-2/lib/style.css'
@@ -75,7 +74,6 @@ const MainButton = styled.button<{dark: boolean, warning?: boolean, focus?: bool
 
 const OrderModal: React.FC<OrderModalProps> = ({modalHandler}) => {
     const {dark, tgUserName, tgNickName} = useStore($tgInfo)
-    const sklad = useStore($pickedSaleDot)
     const {access_token} = useStore($acces)
     const basket = useStore($basket)
     const [focus, setFocus] = useState(false)    
@@ -127,7 +125,7 @@ const OrderModal: React.FC<OrderModalProps> = ({modalHandler}) => {
             },
             "store": {
                 "meta": {
-                    "href": `https://online.moysklad.ru/api/remap/1.2/entity/store/${sklad? sklad.sklad_id : ''}`,
+                    "href": `https://online.moysklad.ru/api/remap/1.2/entity/store/${''}`,
                     "type": "store",
                     "mediaType": "application/json"
                 }
@@ -137,7 +135,7 @@ const OrderModal: React.FC<OrderModalProps> = ({modalHandler}) => {
                 
                 return {
                     "quantity": prod.counter,
-                    "price": prod.data.salePrices[0].value * 100,
+                    "price": prod.data.s[0].value * 100,
                     "discount": 0,
                     "vat": 0,
                     "assortment": {
