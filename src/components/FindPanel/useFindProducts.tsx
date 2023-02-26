@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { IProduct, ISalePrice } from "../../types/types"
 import { useStore } from "effector-react"
 import { $acces, $categories } from "../../store/skladData"
-import { splitArr, сategoriesParse } from './../../utils/parsers'
+// import { splitArr, сategoriesParse } from './../../utils/parsers'
 import { API } from "../../utils/api"
 
 
@@ -23,7 +23,7 @@ const useFindProducts = () => {
             return
         }
         else {
-            const caters = splitArr(сategoriesParse(allCategories).map(cat => `pathName=${cat.folder_name};`).filter(str => str.includes(req)), allCategories.length < 11? 1 : 5).map(spl => spl.join(''))
+            // const caters = splitArr(сategoriesParse(allCategories).map(cat => `pathName=${cat.folder_name};`).filter(str => str.includes(req)), allCategories.length < 11? 1 : 5).map(spl => spl.join(''))
 
             // for(let i = 0; i < caters.length; i++) {
             //     axios(`${API.path}remap/1.2/entity/product?search=${req}&filter=${caters[i]}`, API.configs.get(access_token))

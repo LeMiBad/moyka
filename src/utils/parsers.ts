@@ -1,17 +1,17 @@
 import { CategoryObject, ICategory } from './../types/types';
 
 
-export const сategoriesParse = (arr: CategoryObject[]): ICategory[] => {
-    let categories: ICategory[] = [];
+// export const сategoriesParse = (arr: CategoryObject[]): ICategory[] => {
+    // let categories: ICategory[] = [];
 
-    arr.forEach(obj => {
-        categories.push(obj.category)
+    // arr.forEach(obj => {
+    //     categories.push(obj.category)
 
-        if (obj.child) categories = categories.concat(сategoriesParse(obj.child))
-    })
+    //     if (obj.child) categories = categories.concat(сategoriesParse(obj.child))
+    // })
 
-    return categories;
-}
+    // return categories;
+// }
 
 
 export const findParentCategory = (categories: CategoryObject[], currentCategory: CategoryObject): CategoryObject | null => {
