@@ -2,9 +2,10 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { IProduct, ISalePrice } from "../../types/types"
 import { useStore } from "effector-react"
-import { $acces, $categories } from "../../store/skladData"
+import { $acces, $categories, $products } from "../../store/skladData"
 // import { splitArr, сategoriesParse } from './../../utils/parsers'
 import { API } from "../../utils/api"
+let savedProducts: IProduct[] = []
 
 
 const useFindProducts = () => {
@@ -13,6 +14,9 @@ const useFindProducts = () => {
     const [isLoading, setIsLoading] = useState(true)
     const [filted, setFilted] = useState<IProduct[]>([])
     const allCategories = useStore($categories)
+    const products = useStore($products)
+
+    // console.log(savedProducts)
 
     useEffect(() => {
         setIsLoading(true)
@@ -23,33 +27,21 @@ const useFindProducts = () => {
             return
         }
         else {
-            // const caters = splitArr(сategoriesParse(allCategories).map(cat => `pathName=${cat.folder_name};`).filter(str => str.includes(req)), allCategories.length < 11? 1 : 5).map(spl => spl.join(''))
+            axios.get(`${API.path}partner_grill/get_products/dd75ccb6-5f63-11ed-0a80-062400103edd`, API.configs.get(access_token))
+            .then((data) => {
+                const products = data.data.filter((product: IProduct) => {
+                    console.log(product.item_info.name.toLowerCase(), req.toLowerCase())
+                    return product.item_info.name.toLowerCase().includes(req.toLowerCase())
+                })
 
-            // for(let i = 0; i < caters.length; i++) {
-            //     axios(`${API.path}remap/1.2/entity/product?search=${req}&filter=${caters[i]}`, API.configs.get(access_token))
-            //     .then((data) => {
-            //         const products = data.data.rows.map((product: IProduct) => {
-            //             let currentPrice: ISalePrice = product.salePrices[0]
-            //             product.salePrices.forEach(priceObj => {
-            //                 if(saleDot && saleDot.current_price_type && priceObj.priceType.name === saleDot.current_price_type.price_name) {
-            //                     currentPrice = priceObj
-            //                 }
-            //             })
+                // console.log(data.data)
 
-
-            //             if(saleDot && saleDot.current_price_type && saleDot.current_price_type.price_id  === 'minimal_price') {
-            //                 product.salePrices[0].value = product.minPrice.value / 100
-            //             }
-            //             else {
-            //                 product.salePrices[0].value = currentPrice.value / 100
-            //             }
-            //             return product
-            //         })
-
-            //         setFilted(products)
-            //         setIsLoading(false)
-            //     })
-            // }
+                setFilted(products.map((item: any) => {
+                    item.item_info.buyPrice.value /= 100
+                    return item.item_info
+                }))
+                setIsLoading(false)
+            })
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [req])
