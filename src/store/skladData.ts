@@ -1,9 +1,9 @@
 import { splitArr } from './../utils/parsers';
-import { ISalePrice, IAcces } from './../types/types';
+import { IAcces } from './../types/types';
 import axios from "axios";
 import { createEvent, createStore } from "effector";
 import { createEffect } from 'effector'
-import { CategoryObject, ICategory, IProduct } from "../types/types";
+import { CategoryObject, IProduct } from "../types/types";
 import { API } from '../utils/api';
 
 
@@ -59,7 +59,7 @@ export const $categories = createStore<CategoryObject[]>([{ padding: 0, folder_n
 
                     if (!matchingNode) {
                         matchingNode = {
-                            padding: i + 1,
+                            padding: i,
                             folder_name: subcategory,
                             category: [],
                             child: [],
@@ -76,10 +76,9 @@ export const $categories = createStore<CategoryObject[]>([{ padding: 0, folder_n
         }
 
         function groupProducts(arr: CategoryObject[], products: IProduct[]): CategoryObject[] {
+
             return arr.map(obj => {
-                const pathNameIncluded = products.filter(p => {
-                    if(p) obj.folder_name.includes(p.pathName)
-                });
+                const pathNameIncluded = products.filter(p => p.pathName.includes(obj.folder_name));
 
                 const updatedCategory = [...obj.category, ...pathNameIncluded];
 
@@ -87,6 +86,7 @@ export const $categories = createStore<CategoryObject[]>([{ padding: 0, folder_n
                 if (obj.child) {
                     updatedChild = groupProducts(obj.child, products);
                 }
+
 
                 return {
                     ...obj,
@@ -96,12 +96,24 @@ export const $categories = createStore<CategoryObject[]>([{ padding: 0, folder_n
             });
         }
 
+        const deleteClearChild = (objects: CategoryObject[]): CategoryObject[] => {
+            return objects.map((obj) => ({
+                ...obj,
+                child: obj.child && obj.child.length > 0 ? deleteClearChild(obj.child) : null,
+            }))
+        }
+
+        for (let i = 0; i < allProducts.length; i++) {
+            if (!allProducts[i]) {
+                allProducts.splice(i, 1)
+            }
+        }
+
         const result = groupProducts(buildCategoryTree(allProducts.map((prod, i) => {
-            if (prod) return prod.pathName
-            else return ''
+            return prod.pathName
         })), allProducts)
 
-        return result
+        return deleteClearChild(result)
     })
 
 
@@ -118,6 +130,7 @@ export const $allow_sync_sklad = createStore<boolean>(false)
     .on(setAllowSyncSklad.done, (_, { result }) => result)
 
 
+export const setProducts = createEvent<any>()
 export const getProducts = createEffect(async ({ acces, category, saleDot }: { acces: string, category: any, saleDot: any }) => {
     const config = API.configs.get(acces)
     let urls: any[]
@@ -168,3 +181,4 @@ export const getProducts = createEffect(async ({ acces, category, saleDot }: { a
 
 export const $products = createStore<IProduct[] | null>(null)
     .on(getProducts.done, (state, { result }) => result)
+    .on(setProducts, (_, products) => products)

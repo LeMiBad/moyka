@@ -4,10 +4,10 @@ import styled from "styled-components"
 import { clearLazyLoad } from "../../store/lazyLoadIndex"
 import { setCategory } from "../../store/pickedCategory"
 // import { $pickedSaleDot } from "../../store/pickedSaleDot"
-import { $acces, getProducts } from "../../store/skladData"
+import { $acces, getProducts, setProducts } from "../../store/skladData"
 import { $tgInfo } from "../../store/tgData"
 import { CategoryObject } from "../../types/types"
-import { categoryNameParser, getChildsFolders } from "../../utils/parsers"
+import { categoryNameParser, getChildsFolders, ProductGroupRow } from "../../utils/parsers"
 import ArrowIcon from "../Ui/ArrowIcon/ArrowIcon"
 
 
@@ -28,7 +28,8 @@ const CategoryItem: React.FC<{cat: CategoryObject, switchHandler: () => void}> =
 
     const pickCategory = (category: CategoryObject) => {
         switchHandler()
-        setCategory(category)        
+        setProducts(ProductGroupRow(category.category))      
+        setCategory(category)
         clearLazyLoad()
         // if(saleDot) getProducts({acces: access_token, category: getChildsFolders(category), saleDot})
     }

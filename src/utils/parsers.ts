@@ -1,4 +1,4 @@
-import { CategoryObject, ICategory } from './../types/types';
+import { CategoryObject, ICategory, IProduct } from './../types/types';
 
 
 // export const сategoriesParse = (arr: CategoryObject[]): ICategory[] => {
@@ -52,3 +52,21 @@ export const categoryNameParser = (name: string, padding: number) => name.split(
 
 export const splitArr = (arr: any[], chunks: number) =>
 [...Array(chunks)].map((_, c) => arr.filter((n, i) => i % chunks === c));
+
+
+export const ProductGroupRow = (products: IProduct[]) => {
+    const result: (IProduct | null)[][] = []
+    
+    for(let i = 0; i < products.length; i+=2) {
+        if(products[i]) {
+            if(products[i+1]) {
+                result.push([products[i], products[i+1]])
+            }
+            else {
+                result.push([products[i], null])
+            }
+        }
+    }
+
+    return result
+}

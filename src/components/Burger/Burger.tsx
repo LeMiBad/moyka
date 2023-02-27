@@ -61,9 +61,9 @@ const Burger = () => {
     
 
     const pickAllProducts = () => {
-        // switchHandler()
-        // clearLazyLoad()
-        // setCategory(null)
+        switchHandler()
+        clearLazyLoad()
+        setCategory(null)
         // if(saleDot) {
         //     const final: CategoryObject[] = []
 
@@ -74,7 +74,6 @@ const Burger = () => {
         //     getProducts({acces: access_token, saleDot, category: final})
         // }
     }
-
 
     return (
         <>

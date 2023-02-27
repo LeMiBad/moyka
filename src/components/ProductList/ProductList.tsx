@@ -5,15 +5,15 @@ import styled from "styled-components"
 import useOpen from "../../hooks/useOpeningSwitcher"
 import { $lazyLoad, clearLazyLoad, setLazyLoad } from "../../store/lazyLoadIndex"
 import { setCurVariant } from "../../store/ProductPage"
-import { $acces, $categories, $products, getCategories, getProducts } from "../../store/skladData"
+import { $acces, $categories, $products, getCategories, getProducts, setProducts } from "../../store/skladData"
 import { $tgInfo } from "../../store/tgData"
 import { CategoryObject, IProduct } from "../../types/types"
 import Header from "../Header/Header"
 import Loader from "../Ui/Loader/Loader"
 import Product from "../Product/Product"
 import ProductPage from "../ProductPage/ProductPage"
-import { $category } from "../../store/pickedCategory"
-import { categoryNameParser, findParentCategory} from "../../utils/parsers"
+import { $category, setCategory } from "../../store/pickedCategory"
+import { categoryNameParser, findParentCategory, getChildsFolders, ProductGroupRow} from "../../utils/parsers"
 import ArrowIcon from "../Ui/ArrowIcon/ArrowIcon"
 import ProductsOut from "../Ui/ProductsOut/ProductsOut"
 
@@ -106,21 +106,26 @@ const ProductList = () => {
     }, [products])
 
     const pickCategory = (category: CategoryObject | null) => {
-        // if(category) { 
-        //     setCategory(category)
-        //     getProducts({acces: access_token, category: getChildsFolders(category), saleDot})
-        // }
-        // else {
-        //     setCategory(null)
-        //     getProducts({acces: access_token, category: categories, saleDot})
-        // }
+        if(category) { 
+            setCategory(category)
+            setProducts(ProductGroupRow(category.category))
+            clearLazyLoad()
+        }
+        else {
+            setCategory(null)
+            getProducts({acces: access_token, category: '', saleDot: ''})
+        }
     }
-    
+
     useEffect(() => {
         getProducts({acces: access_token, category: '', saleDot: ''})
-        if(products) getCategories(products.flat(1))
-    }, [access_token, products])
+    }, [])
     
+    useEffect(() => {
+        if(products && !currentCategory) getCategories(products.flat(1))
+    }, [access_token, products, currentCategory])
+    
+
 
     useEffect(() => {
         if(products && loadIndex < products.length/2 && inView) {
@@ -144,7 +149,7 @@ const ProductList = () => {
                         </div> : <></>}
                         <CategoryWrapper>
                             {currentCategory && currentCategory.child? 
-                            currentCategory.child.map((cat, index) => <CategoryCard onClick={() => pickCategory(cat)} key={index} dark={dark}>{categoryNameParser(cat.folder_name, cat.padding)}</CategoryCard>)
+                            currentCategory.child.map((cat, index) => <CategoryCard onClick={() => pickCategory(cat)} key={index} dark={dark}>{cat.folder_name}</CategoryCard>)
                             : null
                         }
                         </CategoryWrapper>
