@@ -47,7 +47,7 @@ const Header = () => {
                 <h1 style={{color: dark? 'white' : 'black', fontSize: 18}}>{cat? cat.folder_name? cat.folder_name : categoryNameParser(cat.folder_name, cat? cat.padding : 0) : 'Все товары'}</h1>
             </div>
             <StyledHeaderSection>
-                {/* <FindPanel/> */}
+                <FindPanel/>
                 <BasketIconButton/>
             </StyledHeaderSection>
         </StyledHeader>
