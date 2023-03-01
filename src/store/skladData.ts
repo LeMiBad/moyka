@@ -155,10 +155,12 @@ export const getProducts = createEffect(async ({ acces, category, saleDot }: { a
     const data = await axios.get(`${API.path}partner_grill/get_products/dd75ccb6-5f63-11ed-0a80-062400103edd`, config)
     let beetweenArr = []
 
+    
     for (let i = 0; i < data.data.length; i++) {
         const product: IProduct = data.data[i].item_info
+        const price = data.data[i].price
 
-        product.buyPrice.value /= 100
+        product.buyPrice.value = price / 100
 
         beetweenArr.push(product)
 
