@@ -26,7 +26,7 @@ const App = () => {
     const mainButton = useMainButton()
     const {currentPage} = usePage()
     const initName = params.get('name') || 'LeMi'
-    const initiDbId = params.get('dbid') || ''
+    const initiDbId = params.get('dbid') || 'dd75ccb6-5f63-11ed-0a80-062400103edd'
     const initPhone = params.get('phone') || ''
     const initAccesToken = params.get('accesToken') || '9e0db243153cc40116571ccd8504d544935de81b'
     

@@ -152,7 +152,7 @@ export const getProducts = createEffect(async ({ acces, category, saleDot }: { a
 
     const result = []
 
-    const data = await axios.get(`${API.path}partner_grill/get_products/dd75ccb6-5f63-11ed-0a80-062400103edd`, config)
+    const data = await axios.get(`${API.path}partner_grill/get_products/${saleDot}`, config)
     let beetweenArr = []
 
     

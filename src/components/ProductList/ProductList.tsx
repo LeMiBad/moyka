@@ -13,9 +13,10 @@ import Loader from "../Ui/Loader/Loader"
 import Product from "../Product/Product"
 import ProductPage from "../ProductPage/ProductPage"
 import { $category, setCategory } from "../../store/pickedCategory"
-import { categoryNameParser, findParentCategory, getChildsFolders, ProductGroupRow} from "../../utils/parsers"
+import { findParentCategory, getChildsFolders, ProductGroupRow} from "../../utils/parsers"
 import ArrowIcon from "../Ui/ArrowIcon/ArrowIcon"
 import ProductsOut from "../Ui/ProductsOut/ProductsOut"
+import { useSearchParams } from "react-router-dom"
 
 const sortByGroup = (products: IProduct[] | null, count: number, index: number) => {
     const result = [];
@@ -79,6 +80,8 @@ const ProductList = () => {
     const [imgLoading, setImgLoading] = useState(true)
     const {dark} = useStore($tgInfo)
     const {access_token} = useStore($acces)
+    const [params] = useSearchParams()
+    const saleDot = params.get('dbid') || 'dd75ccb6-5f63-11ed-0a80-062400103edd'
     const products = useStore($products)
     const currentCategory = useStore($category)
     const categories = useStore($categories)
@@ -113,12 +116,12 @@ const ProductList = () => {
         }
         else {
             setCategory(null)
-            getProducts({acces: access_token, category: '', saleDot: ''})
+            getProducts({acces: access_token, category: '', saleDot})
         }
     }
 
     useEffect(() => {
-        getProducts({acces: access_token, category: '', saleDot: ''})
+        getProducts({acces: access_token, category: '', saleDot})
     }, [])
     
     useEffect(() => {
