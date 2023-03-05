@@ -13,7 +13,7 @@ import Loader from "../Ui/Loader/Loader"
 import Product from "../Product/Product"
 import ProductPage from "../ProductPage/ProductPage"
 import { $category, setCategory } from "../../store/pickedCategory"
-import { findParentCategory, getChildsFolders, ProductGroupRow} from "../../utils/parsers"
+import { categoryNameParser, findParentCategory, getChildsFolders, ProductGroupRow} from "../../utils/parsers"
 import ArrowIcon from "../Ui/ArrowIcon/ArrowIcon"
 import ProductsOut from "../Ui/ProductsOut/ProductsOut"
 import { useSearchParams } from "react-router-dom"
@@ -148,7 +148,7 @@ const ProductList = () => {
                     <>
                         {currentCategory? <div style={{display: 'flex', alignItems: 'center', marginBottom: '1.5vh'}}>
                             <ArrowIcon BackgroundOff func={() => pickCategory(findParentCategory(categories, currentCategory))}/>
-                            <h1 style={{fontSize: 28, fontWeight: 400, color: dark? 'white' : 'black'}}>Категории</h1>
+                            <h1 style={{fontSize: 28, fontWeight: 400, color: dark? 'white' : 'black', width: '90%'}}>{currentCategory? currentCategory.folder_name? currentCategory.folder_name : categoryNameParser(currentCategory.folder_name, currentCategory? currentCategory.padding : 0) : 'Все товары'}</h1>
                         </div> : <></>}
                         <CategoryWrapper>
                             {currentCategory && currentCategory.child? 
