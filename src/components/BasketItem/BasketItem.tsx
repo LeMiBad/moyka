@@ -1,7 +1,7 @@
 import { useStore } from "effector-react"
 import styled from "styled-components"
 import BusketDelete from "../Ui/BusketDelete/BusketDelete"
-import { addBasketItem, deleteBasketItem, deleteBasketItems, IBasket } from "../../store/basket"
+import { addBasketItem, addBasketItems, deleteBasketItem, deleteBasketItems, IBasket } from "../../store/basket"
 import useProductImages from "../../hooks/useImages"
 import { $tgInfo } from "../../store/tgData"
 import LoadImage from "../Ui/LoadImage/LoadImage"
@@ -49,15 +49,20 @@ const StyledActionButtons = styled.div<{dark: boolean}>`
     border-top-left-radius: 10px;
     div:nth-child(2) {
         border-top: 0.4px solid ${props => props.dark? 'black' : 'white'};
-        border-bottom: 0.4px solid ${props => props.dark? 'black' : 'white'};
+    }
+    div:nth-child(3) {
+        border-top: 0.4px solid ${props => props.dark? 'black' : 'white'};
+    }
+    div:nth-child(4) {
+        border-top: 0.4px solid ${props => props.dark? 'black' : 'white'};
     }
 `
 
-const ActionWrapper = styled.div<{height: string, dark: boolean, red?: boolean}>`
+const ActionWrapper = styled.div<{height: string, dark: boolean, red?: boolean, fz?: number}>`
     height: ${props => props.height}%;
     color: ${props => props.dark? 'black' : 'white'};
     ${props => props.red? 'background-color: rgb(242,18,71)' : ''};
-    font-size: 38px;
+    font-size: ${props => props.fz? `${props.fz}px` : '38px'};
     width: 100%;
     display: flex;
     justify-content: center;
@@ -75,6 +80,7 @@ const BasketItem: React.FC<BasketItemProps> = ({ data, i }) => {
     const valute = useValute(data.data) 
     const size = useSize(data.data)   
     
+
     return <StyledBasketItem dark={dark}>
         <div style={{display: 'flex', alignItems: "center", gap: 5}}>
             {isLoading? 
@@ -89,14 +95,16 @@ const BasketItem: React.FC<BasketItemProps> = ({ data, i }) => {
                 <div style={{marginTop: "10px", fontSize: 16, fontWeight: 500, width: '170px', wordWrap: 'break-word'}}>{data.data.name}</div>
                 <div>
                     <h4 style={{fontWeight: 400, fontSize: 14}}>Количество: <Bold>{data.counter} {size}</Bold></h4>
-                    <h4 style={{fontWeight: 400, fontSize: 14}}>Цена/{size} <Bold>{data.data.salePrices[0].value} ₽</Bold></h4>
+                    <h4 style={{fontWeight: 400, fontSize: 14}}>Цена/{size} <Bold>{data.data.buyPrice.value} ₽</Bold></h4>
                 </div>
                 <h3 style={{marginBottom: "10px", fontWeight: 600}}>{+data.data.buyPrice.value * data.counter} {valute}</h3>
             </StyledBasketProps>
         </div>
         <StyledActionButtons dark={dark}> 
-            <ActionWrapper dark={dark} height="30" onClick={() => {deleteBasketItem(i)}}>-</ActionWrapper>
+            <ActionWrapper dark={dark} fz={22} height="30" onClick={() => {addBasketItems({newBasketItem: data, count: 50})}}>+50</ActionWrapper>
+            <ActionWrapper dark={dark} fz={22} height="30" onClick={() => {addBasketItems({newBasketItem: data, count: 20})}}>+20</ActionWrapper>
             <ActionWrapper dark={dark} height="30" onClick={() => {addBasketItem(data)}}>+</ActionWrapper>
+            <ActionWrapper dark={dark} height="30" onClick={() => {deleteBasketItem(i)}}>-</ActionWrapper>
             <ActionWrapper dark={dark} red={true} height="40" onClick={() => {deleteBasketItems(i)}}><BusketDelete/></ActionWrapper> 
         </StyledActionButtons>
     </StyledBasketItem>

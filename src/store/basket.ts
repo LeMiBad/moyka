@@ -11,6 +11,7 @@ const initialBasket: IBasket[] = []
 
 
 export const addBasketItem = createEvent<IBasket>()
+export const addBasketItems = createEvent<{newBasketItem: IBasket, count: number}>()
 export const deleteBasketItems = createEvent<number>()
 export const deleteBasketItem = createEvent<number>()
 export const $basket = createStore(initialBasket)
@@ -28,6 +29,33 @@ export const $basket = createStore(initialBasket)
             newState = state.map(prod => {
                 if(`${prod.data.name}${prod.data.buyPrice.value}` === `${newBasketItem.data.name}${newBasketItem.data.buyPrice.value}`) {
                     if(prod.counter) prod.counter += 1
+                    return prod
+                }
+                else {
+                    return prod
+                }
+            })
+        }
+        else {
+            newState = [...state, {...newBasketItem, counter: 1}]
+        }
+
+        return newState
+    })
+    .on(addBasketItems, (state, {newBasketItem, count}) => {
+        let isHave = false
+        for(let i = 0; i < state.length; i++) {
+            if(`${state[i].data.name}${state[i].data.buyPrice.value}` === `${newBasketItem.data.name}${newBasketItem.data.buyPrice.value}`) {
+                isHave = true
+            }
+        }
+        
+        let newState = []
+        
+        if(isHave) {
+            newState = state.map(prod => {
+                if(`${prod.data.name}${prod.data.buyPrice.value}` === `${newBasketItem.data.name}${newBasketItem.data.buyPrice.value}`) {
+                    if(prod.counter) prod.counter += count
                     return prod
                 }
                 else {
