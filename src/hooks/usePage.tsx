@@ -8,7 +8,9 @@ import { $pageId, setCurrentPage } from "../store/pages"
 
 
 const usePage = () => {
-    const pages = [<ProductList key={'ProductListPage'}/>, <Basket key={'BasketPage'}/>, <ProductPage key={'ProductPagePage'} exit={() => {setCurrentPage(1)}}/>]
+    const pages = [<ProductList key={'ProductListPage'}/>, 
+    <Basket key={'BasketPage'}/>, 
+    <ProductPage key={'ProductPagePage'} exit={() => {setCurrentPage(0)}}/>]
     const pageId = useStore($pageId)
 
 

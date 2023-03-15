@@ -16,7 +16,7 @@ const useFindProducts = () => {
     const allCategories = useStore($categories)
     const products = useStore($products)
 
-    // console.log(savedProducts)
+    // (savedProducts)
 
     useEffect(() => {
         setIsLoading(true)
@@ -30,11 +30,9 @@ const useFindProducts = () => {
             axios.get(`${API.path}partner_grill/get_products/dd75ccb6-5f63-11ed-0a80-062400103edd`, API.configs.get(access_token))
             .then((data) => {
                 const products = data.data.filter((product: IProduct) => {
-                    console.log(product.item_info.name.toLowerCase(), req.toLowerCase())
                     return product.item_info.name.toLowerCase().includes(req.toLowerCase())
                 })
 
-                // console.log(data.data)
 
                 setFilted(products.map((item: any) => {
                     item.item_info.buyPrice.value /= 100

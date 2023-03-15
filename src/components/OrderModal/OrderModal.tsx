@@ -4,7 +4,7 @@ import { useState } from "react"
 import PhoneInput from "react-phone-input-2"
 import styled, { keyframes } from "styled-components"
 import { $basket } from "../../store/basket"
-import { $acces } from "../../store/skladData"
+import { $acces, $skladId } from "../../store/skladData"
 import { $tgInfo } from "../../store/tgData"
 import 'react-phone-input-2/lib/style.css'
 import Loader from "../Ui/Loader/Loader"
@@ -81,6 +81,7 @@ const OrderModal: React.FC<OrderModalProps> = ({modalHandler}) => {
     const {desktop} = useStore($tgInfo)
     const [isEnd, setIsEnd] = useState(false)
     const [validate, setValidate] = useState(false)
+    const skladId = useStore($skladId)
     const {register, control, getValues} = useForm<IForm>({defaultValues: {phone: '', name: tgUserName}})
 
 
@@ -125,7 +126,7 @@ const OrderModal: React.FC<OrderModalProps> = ({modalHandler}) => {
             },
             "store": {
                 "meta": {
-                    "href": `https://online.moysklad.ru/api/remap/1.2/entity/store/${''}`,
+                    "href": `https://online.moysklad.ru/api/remap/1.2/entity/store/${skladId}`,
                     "type": "store",
                     "mediaType": "application/json"
                 }

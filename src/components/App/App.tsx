@@ -34,7 +34,6 @@ const App = () => {
 
     useEffect(() => {
         setSkladId(skladId)
-        console.log(skladId)
         setShopAcces(initAccesToken)
     }, [initAccesToken, initName, initPhone, initiDbId, skladId])
 

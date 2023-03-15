@@ -31,6 +31,7 @@ const useMainButton = () => {
         return acc + +item.data.buyPrice.value * item.counter
     }, 0)
 
+
     const modalHandler = () => setModal(modal? false : true)
 
     useEffect(() => {
@@ -53,26 +54,27 @@ const useMainButton = () => {
                 })
             }
         }
-    }, [curVariant, products])
+    }, [allowSync, config, curVariant, products])
 
     useEffect(() => {
         setTost([''])
     }, [products, setTost])
 
-
-    if(pageId === 1) {
-        if(basket.length) return <MainButton func={toBasket}>{`Оформить заказ`}</MainButton>
+    if(pageId === 0) {
+        if(basket.length) {
+            return <MainButton func={toBasket}>{`Оформить заказ`}</MainButton>
+        }
         else return null
     }
-    else if(pageId === 2) {
+    else if(pageId === 1) {
         if(basketSum) return <>
             {modal? <OrderModal modalHandler={modalHandler}/> : null}
             <MainButton func={() => {modalHandler();toBasket()}}>{`Перейти к оформлению`}</MainButton>
         </>
         else return <MainButton func={toProductList}>Назад к товарам</MainButton>
     }
-    else if(pageId === 3 && products[curVariant] ) {
-        if(products[curVariant].salePrices[0].value && exist) return <>
+    else if(pageId === 2 && products[curVariant] ) {
+        if(products[curVariant].buyPrice.value && exist) return <>
             <MainButton func={() => {
                 setTost([...tost, products[curVariant].name])
                 addBasketItem({
