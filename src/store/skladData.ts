@@ -36,6 +36,9 @@ export const $acces = createStore<IAcces>(initialAcces)
         }
     })
 
+export const setSkladId = createEvent<string>()
+export const $skladId = createStore('')
+    .on(setSkladId, (_, id) => id)
 
 export const getCategories = createEvent<IProduct[]>()
 export const $categories = createStore<CategoryObject[]>([{ padding: 0, folder_name: '', category: [] }])
