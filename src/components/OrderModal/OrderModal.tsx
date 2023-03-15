@@ -191,7 +191,7 @@ const OrderModal: React.FC<OrderModalProps> = ({modalHandler}) => {
             <Wrapper>
                 <div onClick={modalHandler} style={{width: '100%', height: '60%'}}></div>
                 <Modal focus={focus} dark={dark} onChange={validateInputs} style={{width: '100%'}}>
-                    <Input {...register('name')} onFocus={focusHandler} onBlur={unFocusHandler} placeholder="Имя"></Input>
+                    {/* <Input {...register('name')} onFocus={focusHandler} onBlur={unFocusHandler} placeholder="Имя"></Input>
                     <Controller
                         control={control}
                         name="phone"
@@ -212,8 +212,8 @@ const OrderModal: React.FC<OrderModalProps> = ({modalHandler}) => {
                         )}
                     />
                     <Input {...register('desk')} onFocus={focusHandler} onBlur={unFocusHandler} placeholder="Коментарий (необязательно)"></Input>
-                    <Input {...register('location')} onFocus={focusHandler} onBlur={unFocusHandler} placeholder={'Адрес доставки'}></Input>
-                    {validate? <MainButton focus={focus} onClick={accepHandler} dark={dark}>Оформить</MainButton>
+                    <Input {...register('location')} onFocus={focusHandler} onBlur={unFocusHandler} placeholder={'Адрес доставки'}></Input> */}
+                    {basket.length?  <MainButton focus={focus} onClick={accepHandler} dark={dark}>Оформить</MainButton>
                     : <MainButton warning={true} focus={focus} dark={dark}>Оформить</MainButton>}
                 </Modal>
             </Wrapper>
