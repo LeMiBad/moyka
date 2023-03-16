@@ -188,7 +188,8 @@ const OrderModal: React.FC<OrderModalProps> = ({ modalHandler }) => {
             },
             "positions": positions,
             "shipmentAddress": getValues('location'),
-            "description": `Имя клиента: ${getValues('name')}\nНомер телефона: ${getValues('phone').replace(/[^\d]/g, '')}\nКомментарий: ${getValues('desk')}`
+            // "description": `Имя клиента: ${getValues('name')}\nНомер телефона: ${getValues('phone').replace(/[^\d]/g, '')}\nКомментарий: ${getValues('desk')}`
+            "description": `Имя клиента: ${getValues('name')}`
         })
         const config = {
             method: 'post',
