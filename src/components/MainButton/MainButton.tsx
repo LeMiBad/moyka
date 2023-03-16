@@ -4,6 +4,7 @@ import { $tgInfo } from "../../store/tgData"
 
 const StyledMainButton = styled.button<{dark: boolean}>`
     position: fixed;
+    min-width: 100%;
     width: 100%;
     padding: 2.5vh 0;
     z-index: 300;
