@@ -1,10 +1,10 @@
 import axios from "axios"
 import { useStore } from "effector-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import PhoneInput from "react-phone-input-2"
 import styled, { keyframes } from "styled-components"
 import { $basket } from "../../store/basket"
-import { $acces, $skladId } from "../../store/skladData"
+import { $acces, $phone, $skladId } from "../../store/skladData"
 import { $tgInfo } from "../../store/tgData"
 import 'react-phone-input-2/lib/style.css'
 import Loader from "../Ui/Loader/Loader"
@@ -98,8 +98,13 @@ const OrderModal: React.FC<OrderModalProps> = ({ modalHandler }) => {
     const [validate, setValidate] = useState(false)
     const skladId = useStore($skladId)
     const dostavkaState = useStore($dostavkaState)
+    const phone = useStore($phone)
     const { register, control, getValues } = useForm<IForm>({ defaultValues: { phone: '', name: tgUserName } })
 
+
+    useEffect(() => {
+        console.log(phone)
+    }, [])
 
     const accepHandler = async () => {
         setIsEnd(true)
@@ -112,7 +117,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ modalHandler }) => {
             },
             data: JSON.stringify({
                 "token": access_token,
-                "phone": getValues('phone').replace(/[^\d]/g, ''),
+                "phone": phone.replace(/[^\d]/g, ''),
                 "tg_username": tgNickName,
                 "name": getValues('name')
             })
@@ -187,7 +192,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ modalHandler }) => {
                 }
             },
             "positions": positions,
-            "shipmentAddress": getValues('location'),
+            // "shipmentAddress": getValues('location'),
             // "description": `Имя клиента: ${getValues('name')}\nНомер телефона: ${getValues('phone').replace(/[^\d]/g, '')}\nКомментарий: ${getValues('desk')}`
             "description": `Имя клиента: ${getValues('name')}`
         })

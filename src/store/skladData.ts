@@ -40,6 +40,10 @@ export const setSkladId = createEvent<string>()
 export const $skladId = createStore('')
     .on(setSkladId, (_, id) => id)
 
+export const setPhone = createEvent<string>()
+export const $phone = createStore('')
+    .on(setPhone, (_, phone) => phone)
+    
 export const getCategories = createEvent<IProduct[]>()
 export const $categories = createStore<CategoryObject[]>([{ padding: 0, folder_name: '', category: [] }])
     .on(getCategories, (_, allProducts) => {
