@@ -146,7 +146,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ modalHandler }) => {
                     "vat": 0,
                     "assortment": {
                         "meta": {
-                            "href": `https://online.moysklad.ru/api/remap/1.2/entity/servise/${'47dc383b-6bb3-11eb-0a80-09e20010ae54'}`,
+                            "href": `https://online.moysklad.ru/api/remap/1.2/entity/service/${'47dc383b-6bb3-11eb-0a80-09e20010ae54'}`,
                             "type": 'service',
                             "mediaType": "application/json"
                         }
