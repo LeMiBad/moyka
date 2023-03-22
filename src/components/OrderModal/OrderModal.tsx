@@ -102,10 +102,6 @@ const OrderModal: React.FC<OrderModalProps> = ({ modalHandler }) => {
     const { register, control, getValues } = useForm<IForm>({ defaultValues: { phone: '', name: tgUserName } })
 
 
-    useEffect(() => {
-        console.log(phone)
-    }, [])
-
     const accepHandler = async () => {
         setIsEnd(true)
         const configForAgent = {

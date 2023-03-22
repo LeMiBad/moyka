@@ -154,24 +154,25 @@ export const getProducts = createEffect(async ({ acces, category, saleDot }: { a
         urls = ['pathName=' + category]
         Allcategories = 'pathName=' + category
     }
-
+    
     if (cashedCategory[Allcategories]) return cashedCategory[Allcategories]
-
+    
     const result = []
-
+    
     const data = await axios.get(`${API.path}partner_grill/get_products/${saleDot}`, config)
     let beetweenArr = []
-
+    console.log(data.data)
+    
     
     for (let i = 0; i < data.data.length; i++) {
         const product: IProduct = data.data[i].item_info
         const price = data.data[i].price
-
+        
         product.buyPrice.value = price / 100
-
+        
         beetweenArr.push(product)
-
-
+        
+        
         if (beetweenArr.length === 2) {
             result.push(beetweenArr)
             beetweenArr = []
@@ -180,8 +181,8 @@ export const getProducts = createEffect(async ({ acces, category, saleDot }: { a
             result.push([product, null])
         }
     }
-
-
+    
+    
     cashedCategory[Allcategories] = result
     return result
 })
