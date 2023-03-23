@@ -11,6 +11,7 @@ import Loader from "../Ui/Loader/Loader"
 import { Controller, useForm } from "react-hook-form"
 import { IForm } from "./form"
 import { $dostavkaState } from "../../store/dostavka"
+import { getTomorrowDate } from "../../utils/getTommorowDate"
 
 
 interface OrderModalProps {
@@ -188,6 +189,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ modalHandler }) => {
                 }
             },
             "positions": positions,
+            "deliveryPlannedMoment": getTomorrowDate(),
             // "shipmentAddress": getValues('location'),
             // "description": `Имя клиента: ${getValues('name')}\nНомер телефона: ${getValues('phone').replace(/[^\d]/g, '')}\nКомментарий: ${getValues('desk')}`
             "description": `Имя клиента: ${getValues('name')}`
