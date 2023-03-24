@@ -119,10 +119,6 @@ const ProductList = () => {
             getProducts({acces: access_token, category: '', saleDot})
         }
     }
-
-    useEffect(() => {
-        getProducts({acces: access_token, category: '', saleDot})
-    }, [])
     
     useEffect(() => {
         if(products && !currentCategory) getCategories(products.flat(1))

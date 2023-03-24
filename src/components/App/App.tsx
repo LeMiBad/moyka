@@ -4,7 +4,7 @@ import { useSearchParams } from 'react-router-dom'
 import { createGlobalStyle } from 'styled-components'
 import useMainButton from '../../hooks/useMainButton'
 import usePage from '../../hooks/usePage'
-import { setPhone, setShopAcces, setSkladId } from '../../store/skladData'
+import { getProducts, setPhone, setShopAcces, setSkladId } from '../../store/skladData'
 import { $tgInfo, darkThemeEnabler, desktopEnabler, setTgNickName, setTgUserName } from '../../store/tgData'
 import './app.css'
 
@@ -38,6 +38,9 @@ const App = () => {
         setShopAcces(initAccesToken)
     }, [initAccesToken, initName, initPhone, initiDbId, skladId])
 
+    useEffect(() => {
+        getProducts({acces: initAccesToken, category: '', saleDot: initiDbId})
+    }, [])
     
     useEffect(() => {
         setTgUserName(initName)
