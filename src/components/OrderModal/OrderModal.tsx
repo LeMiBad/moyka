@@ -238,8 +238,8 @@ const OrderModal: React.FC<OrderModalProps> = ({ modalHandler }) => {
                         <h1 style={{ color: dark ? 'black' : 'white', fontSize: 16, textAlign: 'center' }}>Вы уверены?</h1>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <Button dark={dark} onClick={accepHandler}>Да</Button>
                         <Button dark={dark} onClick={modalHandler}>Нет</Button>
+                        <Button dark={dark} onClick={accepHandler}>Да</Button>
                     </div>
                     {/* <Input {...register('name')} onFocus={focusHandler} onBlur={unFocusHandler} placeholder="Имя"></Input>
                     <Controller

@@ -26,6 +26,7 @@ const App = () => {
     const mainButton = useMainButton()
     const {currentPage} = usePage()
     const initName = params.get('name') || ''
+    const allToken = params.get('allToken') || ''
     const initiDbId = params.get('dbid') || 'dd75ccb6-5f63-11ed-0a80-062400103edd'
     const initPhone = params.get('phone') || ''
     const skladId = params.get('skladId') || ''
@@ -35,6 +36,7 @@ const App = () => {
     useEffect(() => {
         setSkladId(skladId)
         setPhone(initPhone)
+        
         setShopAcces(initAccesToken)
     }, [initAccesToken, initName, initPhone, initiDbId, skladId])
 
