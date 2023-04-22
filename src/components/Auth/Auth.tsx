@@ -10,7 +10,7 @@ const POPUP_WINDOW_HEIGHT = 600;
 const userManager = new UserManager({
   authority: "https://sts-identity.intelwash.ru", // Адрес IdentityServer4
   client_id: "UiTest.client", // Идентификатор клиента
-  redirect_uri: "https://sts-identity.intelwash.ru/connect/authorize", // URL, на который будет перенаправлен пользователь после аутентификации
+  redirect_uri: "https://api.intelwash.ru/uitest/oauth2-redirect.html", // URL, на который будет перенаправлен пользователь после аутентификации
   response_type: "code", // Тип ответа
   scope: "UiTest.API", // Запрашиваемые ресурсы
   post_logout_redirect_uri: "http://localhost:3000", // URL, на который будет перенаправлен пользователь после выхода из системы
